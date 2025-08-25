@@ -4,20 +4,40 @@ import json
 from flask import Flask, send_from_directory, jsonify, request
 from flask_cors import CORS, cross_origin
 
-# Add the parent directory to the path to import from src
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+# Get the root directory (parent of api folder)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_DIR = os.path.join(ROOT_DIR, 'src', 'static')
+DATA_PATH = os.path.join(ROOT_DIR, 'src', 'admission_data.json')
 
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'static'))
+app = Flask(__name__, static_folder=STATIC_DIR)
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
 
 # Enable CORS for all routes
 CORS(app)
 
-# Load admission data
+# Cache admission data to avoid reading file multiple times
+_admission_data = None
+
 def load_admission_data():
-    data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src', 'admission_data.json')
-    with open(data_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    global _admission_data
+    if _admission_data is None:
+        try:
+            with open(DATA_PATH, 'r', encoding='utf-8') as f:
+                _admission_data = json.load(f)
+        except Exception as e:
+            print(f"Error loading admission data: {e}")
+            # Return default data structure if file not found
+            _admission_data = {
+                'college_info': {},
+                'admission_info': {'fee_structure': {}},
+                'selected_students': {
+                    'science_bengali': [],
+                    'science_english': [],
+                    'humanities': [],
+                    'business_studies': []
+                }
+            }
+    return _admission_data
 
 # Admission routes
 @app.route('/api/admission/search', methods=['GET'])
@@ -102,22 +122,33 @@ def get_stats():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    static_folder_path = app.static_folder
-    if static_folder_path is None:
-        return "Static folder not configured", 404
-
-    if path != "" and os.path.exists(os.path.join(static_folder_path, path)):
-        return send_from_directory(static_folder_path, path)
-    else:
-        index_path = os.path.join(static_folder_path, 'index.html')
+    try:
+        if path and path != "":
+            # Try to serve the requested file
+            file_path = os.path.join(STATIC_DIR, path)
+            if os.path.exists(file_path) and os.path.isfile(file_path):
+                return send_from_directory(STATIC_DIR, path)
+        
+        # Default to index.html
+        index_path = os.path.join(STATIC_DIR, 'index.html')
         if os.path.exists(index_path):
-            return send_from_directory(static_folder_path, 'index.html')
+            return send_from_directory(STATIC_DIR, 'index.html')
         else:
-            return "index.html not found", 404
+            return jsonify({'error': 'Application not found', 'static_dir': STATIC_DIR}), 404
+    except Exception as e:
+        return jsonify({'error': str(e), 'path': path}), 500
 
-# Vercel handler
-def handler(request):
-    return app(request.environ, lambda status, headers: None)
+# Health check endpoint
+@app.route('/api/health')
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'root_dir': ROOT_DIR,
+        'static_dir': STATIC_DIR,
+        'data_path': DATA_PATH,
+        'data_exists': os.path.exists(DATA_PATH),
+        'static_exists': os.path.exists(STATIC_DIR)
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
