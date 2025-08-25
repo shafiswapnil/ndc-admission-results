@@ -17,6 +17,7 @@
 - [Project Structure](#-project-structure)
 - [Configuration](#️-configuration)
 - [Contributing](#-contributing)
+- [Deployment](#-deployment)
 - [License](#-license)
 - [Author](#-author)
 
@@ -414,6 +415,56 @@ If you find a bug, please create an issue with:
 - Expected behavior
 - Screenshots (if applicable)
 - Environment details
+
+## 🚀 Deployment
+
+### Vercel Deployment (Recommended)
+
+This project is optimized for Vercel deployment with serverless functions.
+
+1. **Install Vercel CLI**
+
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Login to Vercel**
+
+   ```bash
+   vercel login
+   ```
+
+3. **Deploy to Vercel**
+
+   ```bash
+   vercel --prod
+   ```
+
+4. **Or Deploy via GitHub**
+   - Push your code to GitHub
+   - Connect your repository to Vercel at [vercel.com](https://vercel.com)
+   - Automatic deployments on every push
+
+### Environment Variables for Vercel
+
+Set these in your Vercel dashboard:
+
+- `FLASK_ENV=production`
+
+### Other Production Deployments
+
+1. **Using Gunicorn**
+
+   ```bash
+   pip install gunicorn
+   gunicorn -w 4 -b 0.0.0.0:8000 src.main:app
+   ```
+
+2. **Using Docker**
+   ```bash
+   docker build -t ndc-portal .
+   docker run -p 8000:8000 ndc-portal
+   ```
 
 ## 🔒 Security
 
