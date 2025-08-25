@@ -1,31 +1,24 @@
 # Notre Dame College Admission Results Portal
 
-<div align="center">
-
-![Notre Dame College](https://img.shields.io/badge/Notre%20Dame%20College-Admission%20Portal-blue?style=for-the-badge)
 ![Flask](https://img.shields.io/badge/Flask-3.1.1-green?style=for-the-badge&logo=flask)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 **A modern, responsive web application for Notre Dame College admission results checking system**
 
-[Features](#features) • [Installation](#installation) • [Usage](#usage) • [API Documentation](#api-documentation) • [Contributing](#contributing)
-
-</div>
-
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Documentation](#api-documentation)
-- [Project Structure](#project-structure)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [API Documentation](#-api-documentation)
+- [Project Structure](#-project-structure)
+- [Configuration](#️-configuration)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Author](#-author)
 
 ## 🎯 Overview
 
@@ -434,8 +427,7 @@ If you find a bug, please create an issue with:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Authors
+## 👥 Author
 
 - **Shafi Swapnil** - [GitHub Profile](https://github.com/shafiswapnil)
 - **Email**: [swapnil.env@gmail.com](mailto:swapnil.env@gmail.com)
-
