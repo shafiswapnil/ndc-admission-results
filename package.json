@@ -1,0 +1,18 @@
+{
+  "name": "ndc-admission-results",
+  "version": "1.0.0",
+  "description": "Notre Dame College Admission Results Portal",
+  "main": "api/index.py",
+  "scripts": {
+    "dev": "python api/index.py",
+    "build": "echo 'Build complete'"
+  },
+  "keywords": [
+    "flask",
+    "admission",
+    "portal",
+    "notre-dame-college"
+  ],
+  "author": "Shafi Swapnil",
+  "license": "MIT"
+}
